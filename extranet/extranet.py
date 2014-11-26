@@ -81,7 +81,13 @@ class Extranet(object):
         else:
             self.logged = True
 
-    def get_timetable(self, start, end):
+    def get_timetable(self, start=None, end=None, *, days=7):
+        # Default: yesterday
+        start = start or datetime.combine(date.today(), datetime.min.time())
+
+        # Default: next week
+        end = end or (start + timedelta(days))
+
         if not self.logged:
             self.login()
 
